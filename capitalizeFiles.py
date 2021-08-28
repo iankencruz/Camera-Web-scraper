@@ -1,7 +1,8 @@
 import os
 
 
-
+#! Make sure to set directory
+#TODO Make it ask for directory to os.walk
 directory = r'E:\Anime'
 
 #* Walk Through Directory

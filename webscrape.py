@@ -1,46 +1,52 @@
 import time
-from typing import Container
-# from urllib.request import urlopen as uReq
 from bs4 import BeautifulSoup as soup
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 
+my_url = 'https://www.digidirect.com.au/cameras/mirrorless-cameras/filters/brand/fujifilm-2'
 
-my_url = 'https://www.digidirect.com.au/lenses/mirrorless-lenses'
+# Load webdriver
+driver = webdriver.Chrome()
 
+# Load webpage
+driver.get(my_url)
 
-
-browser = webdriver.Chrome()
-
-
-#load webpage
-browser.get(my_url)
-time.sleep(0.5)
+# Wait before scrolling
+time.sleep(0.3)
 
 # Get the body element to scroll
-elem = browser.find_element_by_tag_name("body")
+elem = driver.find_element_by_tag_name("body")
 
-scrollAmount = 10
+# Pause time in between scrolls
+scrollPauseTime = .5 
 
-while scrollAmount:
-    
-    elem.send_keys(Keys.PAGE_DOWN)
-    time.sleep(.2)
-    scrollAmount-=1
-    print("Scrolling!  #" + str(scrollAmount))
-    
-    
+# get the screen height of the web
+screenHeight = driver.execute_script("return window.screen.height;")   
+i = 1
 
+while True:
+    # scroll one screen height each time
+    driver.execute_script("window.scrollTo(0, {scrollHeight}*{i});".format(scrollHeight=screenHeight, i=i))  
+    i += 1
+    time.sleep(scrollPauseTime)
+
+    # update scroll height each time after scrolled, as the scroll height can change after we scrolled the page
+    scrollHeight = driver.execute_script("return document.body.scrollHeight;")  
+    
+    # Break the loop when the height we need to scroll to is larger than the total scroll height
+    if (screenHeight) * i > scrollHeight:
+        break 
+    
+    print("Scrolling!")
 
 print ("Finished Scrolling!")
 
-
 # parse as a bs4 object
-page_soup = soup(browser.page_source, 'html.parser')
+page_soup = soup(driver.page_source, 'html.parser')
 
 #grabs each product
-#! NOT FINDING ALL ITEMS
 items = page_soup.findAll("li", {'class': 'item product product-item'})
+
+print(len(items))
 
 
 # Get product name
@@ -67,4 +73,4 @@ for container in items:
     
 print("Total items found: " + str(len(items)))
 
-browser.quit()
+driver.quit()

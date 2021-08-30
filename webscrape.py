@@ -4,6 +4,10 @@ from selenium import webdriver
 
 my_url = 'https://www.digidirect.com.au/cameras/mirrorless-cameras/filters/brand/fujifilm-2'
 
+#TODO Use request instead of selenium to load the rest of the items
+
+
+
 # Load webdriver
 driver = webdriver.Chrome()
 
@@ -74,3 +78,6 @@ for container in items:
 print("Total items found: " + str(len(items)))
 
 driver.quit()
+
+#TODO Implement into a csv file and organise to low-high pricing
+

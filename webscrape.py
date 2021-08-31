@@ -2,7 +2,7 @@ import time
 from bs4 import BeautifulSoup as soup
 from selenium import webdriver
 
-my_url = 'https://www.digidirect.com.au/cameras/mirrorless-cameras/filters/brand/fujifilm-2'
+my_url = 'https://www.digidirect.com.au/cameras/mirrorless-cameras/filters/brand/fujifilm-3'
 
 #TODO Use request instead of selenium to load the rest of the items
 
@@ -26,6 +26,15 @@ scrollPauseTime = .5
 # get the screen height of the web
 screenHeight = driver.execute_script("return window.screen.height;")   
 i = 1
+
+
+filename = 'products.csv'
+f = open(filename, 'w')
+
+
+headers = 'Product Name, Top Price, Sale Price\n'
+
+f.write(headers)
 
 while True:
     # scroll one screen height each time
@@ -60,22 +69,26 @@ for container in items:
         print("Product: " + product_name)
         priceList = container.find_all("span", {"class":"price"})
 
-        oldprice = priceList[0].text
-        newprice = priceList[1].text
+        # Grab old and new price from span class
+        # oldprice = priceList[0].text
+        # newprice = priceList[1].text
+        
+        # Format text to remove comma
+        oldprice = priceList[0].text.replace(',', '')
+        newprice = priceList[1].text.replace(',', '')
+
         print("New Price: " + newprice)
     except:
         print("NO SALE PRICE FOUND!")
-        # oldprice = priceList[0].text
         print("Top Price: " + oldprice)
     else:
-        # oldprice = priceList[0].text
         print("Top Price: " + oldprice)
 
-
+    f.write(product_name + ',' +  oldprice + ',' +  newprice + '\n')
     print("\n")
 
-    
 print("Total items found: " + str(len(items)))
+f.close()
 
 driver.quit()
 

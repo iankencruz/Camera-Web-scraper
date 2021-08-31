@@ -27,14 +27,16 @@ scrollPauseTime = .5
 screenHeight = driver.execute_script("return window.screen.height;")   
 i = 1
 
-
+# Write to file setup
 filename = 'products.csv'
-f = open(filename, 'w')
+file = open(filename, 'w')
 
 
+#* WRITE THE HEADERS OF THE CSV FILE
 headers = 'Product Name, Top Price, Sale Price\n'
+file.write(headers)
 
-f.write(headers)
+
 
 while True:
     # scroll one screen height each time
@@ -53,6 +55,7 @@ while True:
 
 print ("Finished Scrolling!")
 
+
 # parse as a bs4 object
 page_soup = soup(driver.page_source, 'html.parser')
 
@@ -62,35 +65,35 @@ items = page_soup.findAll("li", {'class': 'item product product-item'})
 print(len(items))
 
 
+
 # Get product name
 for container in items:
     try:
-        product_name = container.strong.a['title']
+        #TODO sort product name to match sorted price
+        product_name = container.strong.a['title'] 
         print("Product: " + product_name)
         priceList = container.find_all("span", {"class":"price"})
 
+
         # Grab old and new price from span class
-        # oldprice = priceList[0].text
-        # newprice = priceList[1].text
-        
         # Format text to remove comma
         oldprice = priceList[0].text.replace(',', '')
         newprice = priceList[1].text.replace(',', '')
 
         print("New Price: " + newprice)
+
     except:
         print("NO SALE PRICE FOUND!")
         print("Top Price: " + oldprice)
     else:
         print("Top Price: " + oldprice)
 
-    f.write(product_name + ',' +  oldprice + ',' +  newprice + '\n')
+    file.write(product_name + ',' +  oldprice + ',' +  newprice + '\n')
     print("\n")
 
-print("Total items found: " + str(len(items)))
-f.close()
+print("Total items found: " + str(len(items)) + '\n')
+
+file.close()
 
 driver.quit()
-
-#TODO Implement into a csv file and organise to low-high pricing
 

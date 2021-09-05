@@ -64,7 +64,7 @@ items = page_soup.findAll("li", {'class': 'item product product-item'})
 
 print(len(items))
 
-
+name_dict = {}
 
 # Get product name
 for container in items:
@@ -82,15 +82,25 @@ for container in items:
 
         print("New Price: " + newprice)
 
+
+
+        for cameraname in items:
+            name_dict[cameraname] = product_name
+
+
     except:
         print("NO SALE PRICE FOUND!")
         print("Top Price: " + oldprice)
     else:
         print("Top Price: " + oldprice)
 
-    file.write(product_name + ',' +  oldprice + ',' +  newprice + '\n')
+    #file.write(product_name + ',' +  oldprice + ',' +  newprice + '\n')
     print("\n")
 
+print("\n")
+print("************************************")
+print(list(name_dict))
+print("\n")
 print("Total items found: " + str(len(items)) + '\n')
 
 file.close()

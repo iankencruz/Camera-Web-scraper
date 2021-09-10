@@ -2,9 +2,11 @@ import time
 from bs4 import BeautifulSoup as soup
 from selenium import webdriver
 
-my_url = 'https://www.digidirect.com.au/cameras/mirrorless-cameras/filters/brand/fujifilm-3'
+my_url = 'https://www.digidirect.com.au/cameras/mirrorless-cameras'
 
 #TODO Use request instead of selenium to load the rest of the items
+#TODO Scrape Georges camera aswell
+#TODO refactor in to a function to reuse scraping code
 
 
 
@@ -28,7 +30,7 @@ screenHeight = driver.execute_script("return window.screen.height;")
 i = 1
 
 # Write to file setup
-filename = 'products.csv'
+filename = 'product_cameras.csv'
 file = open(filename, 'w')
 
 
@@ -36,6 +38,9 @@ file = open(filename, 'w')
 headers = 'Product Name, Top Price, Sale Price\n'
 file.write(headers)
 
+
+#* Filter by brand
+search_target = "Fujifilm"
 
 
 while True:
@@ -62,45 +67,41 @@ page_soup = soup(driver.page_source, 'html.parser')
 #grabs each product
 items = page_soup.findAll("li", {'class': 'item product product-item'})
 
-print(len(items))
 
-name_dict = {}
+oldprice = ''
+newprice = ''
+
 
 # Get product name
 for container in items:
-    try:
-        #TODO sort product name to match sorted price
-        product_name = container.strong.a['title'] 
-        print("Product: " + product_name)
-        priceList = container.find_all("span", {"class":"price"})
+    if ( search_target in container.strong.a['title'] ):
+
+        try:
+            #TODO sort product name to match sorted price
+            product_name = container.strong.a['title'] 
+            print("Product: " + product_name)
+            priceList = container.find_all("span", {"class":"price"})
 
 
-        # Grab old and new price from span class
-        # Format text to remove comma
-        oldprice = priceList[0].text.replace(',', '')
-        newprice = priceList[1].text.replace(',', '')
+            # Grab old and new price from span class
+            # Format text to remove comma
+            oldprice = priceList[0].text.replace(',', '')
+            newprice = priceList[1].text.replace(',', '')
 
-        print("New Price: " + newprice)
-
-
-
-        for cameraname in items:
-            name_dict[cameraname] = product_name
+            print("New Price: " + newprice)
 
 
-    except:
-        print("NO SALE PRICE FOUND!")
-        print("Top Price: " + oldprice)
-    else:
-        print("Top Price: " + oldprice)
 
-    #file.write(product_name + ',' +  oldprice + ',' +  newprice + '\n')
-    print("\n")
+        except:
+            print("NO SALE PRICE FOUND!")
+            print("Top Price: " + oldprice)
+        else:
+            print("Top Price: " + oldprice)
 
-print("\n")
-print("************************************")
-print(list(name_dict))
-print("\n")
+        file.write(product_name + ',' +  oldprice + ',' +  newprice + '\n')
+        print("\n")
+
+
 print("Total items found: " + str(len(items)) + '\n')
 
 file.close()

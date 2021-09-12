@@ -1,6 +1,8 @@
 import time
 from bs4 import BeautifulSoup as soup
+from bs4.element import PageElement
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import pandas as pd
 
 _digi_url = 'https://www.digidirect.com.au/cameras/mirrorless-cameras'
@@ -9,6 +11,14 @@ _georges_url = 'https://www.georges.com.au/digital-cameras/mirrorless-cameras.ht
 #TODO Scrape Georges camera aswell
 #TODO refactor in to a function to reuse scraping code
 
+
+#* FUNCTION DEFINITIONS
+def LoadPage(sel_driver, dest):        
+    # Load webpage
+    sel_driver.get(dest)    
+
+    # Wait before scrolling
+    time.sleep(0.3)
 
 def ScrollPage(driver, scrollPauseTime, screenHeight, iter):
     while True:
@@ -27,19 +37,8 @@ def ScrollPage(driver, scrollPauseTime, screenHeight, iter):
     
         print("Scrolling!")
 
-
-
-
-def LoadPage(sel_driver, dest):        
-    # Load webpage
-    sel_driver.get(dest)    
-
-    # Wait before scrolling
-    time.sleep(0.3)
-
-  
-
 def ParseHTML(sel_driver, html_tag : str, id : str, id_name : str):
+    
     # parse as a bs4 object
     page_soup = soup(sel_driver.page_source, 'html.parser')
 
@@ -48,10 +47,35 @@ def ParseHTML(sel_driver, html_tag : str, id : str, id_name : str):
 
     return result_items
 
+def GetProductInfo(tar_list : list, bs4_item : soup, html : str, id : str, id_name : str):
+    product_name = bs4_item.strong.a['title'] 
+    prices = bs4_item.find_all(html, {id:id_name})
+    brand_name = tar_list[i]
+    top_p = prices[0].text.replace(',', '')
+    new_p = 'NO SALE'                       #* Default value
+
+    #* Handling of prices when no sale is on
+    if (len(prices) >= 2 ):
+        new_p = prices[1].text.replace(',', '')
+
+    #* DEBUG LOGS    
+    print(product_name, brand_name)
+    print(top_p, new_p)
+    print ('\n')
 
 
+    return product_name, brand_name, top_p, new_p
+
+
+
+
+op = Options()
+op.add_argument("--headless")
 # Load webdriver
-driver = webdriver.Chrome()
+driver = webdriver.Chrome(options=op)
+
+
+
 
 
 # Pause time in between scrolls
@@ -71,23 +95,13 @@ LoadPage(driver, _digi_url)
 ScrollPage(driver, _scrollPauseTime, screenHeight, i)
 
 
-
-
-
-
-
 items = ParseHTML(driver, 'li','class','item product product-item')
 
 
 
 
-
-
-
-top_price = ''
-new_price = ''
-
-
+##############
+#TODO create a write file function
 
 # Write to file setup
 filename = 'product_cameras.csv'
@@ -102,8 +116,9 @@ file.write(headers)
 
 
 
-def GetProductInfo(bs4_item, html : str, id : str, id_name : str):
-    product_name = bs4_item.strong.a['title'] 
+
+
+
 
 
 
@@ -118,39 +133,26 @@ for container in items:
         if (search_target[i] in container.strong.a['title'] ):
 
             try:
-                product_name = container.strong.a['title'] 
-                print("Product: " + product_name)
-
-                priceList = container.find_all("span", {"class":"price"})
-
-                brand_name = search_target[i]
 
 
-                # Grab old and new price from span class
-                # Format text to remove comma
-                top_price = priceList[0].text.replace(',', '')
-                new_price = priceList[1].text.replace(',', '')
+                prod_name, brand_name, top_price, new_price = GetProductInfo(search_target, container, 'span', 'class', 'price')
 
-                print("New Price: " + new_price)
+            except FileNotFoundError:
+                print("Error")
 
+            file.write(f'{prod_name},{brand_name},{top_price},{new_price} \n')
 
-
-
-            except:
-                print("NO SALE PRICE FOUND!")
-                print("Top Price: " + top_price)
-            else:
-                print("Top Price: " + top_price)
-
-            # file.write(product_name + ',' +  oldprice + ',' +  newprice + '\n')
-            file.write(f'{product_name},{brand_name},{top_price},{new_price} \n')
-            print("\n")
+            
 
 
 print("Total items found: " + str(len(items)) + '\n')
 
 file.close()
 
-driver.quit()
 
+try:
+    driver.quit()
+    print("Driver Closed Successfully!")
+except MemoryError:
+    print('Failed to quit driver!')
 

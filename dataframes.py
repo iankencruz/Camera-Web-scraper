@@ -1,12 +1,8 @@
-from os import sep
 import pandas as pd
 
 
-src_df = pd.read_csv('product_cameras.csv', encoding='latin1', index_col='Brand')
-src_to_excel = src_df.to_excel('product_cameras.xlsx')
+df = pd.read_csv('product_cameras.csv', encoding='latin1', index_col='Brand')
 
-
-df = pd.read_excel('product_cameras.xlsx')
 df.style.set_properties(**{'text-align': 'left'})
 
 df['Top-Price'] = df['Top-Price'].str.replace('$', '', regex=True)

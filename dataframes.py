@@ -2,11 +2,21 @@ from os import sep
 import pandas as pd
 
 
-src_df = pd.read_csv('product_cameras.csv', encoding='latin1')
+src_df = pd.read_csv('product_cameras.csv', encoding='latin1', index_col='Brand')
 src_to_excel = src_df.to_excel('product_cameras.xlsx')
 
 
 df = pd.read_excel('product_cameras.xlsx')
+df.style.set_properties(**{'text-align': 'left'})
+
+df['Top-Price'] = df['Top-Price'].str.replace('$', '', regex=True)
+df['Top-Price'] = df['Top-Price'].astype(float, errors='ignore')
+
+# if '$' in df["Sale-Price"]:
+#     df['Sale-Price'] = df['Sale-Price'].str.replace('$', '')
+#     df['Sale-Price'] = df['Sale-Price'].astype(float, errors='ignore')
+# else:
+#     print('Error: Sale-Price NaN Object Found')
 
 
 
@@ -17,8 +27,8 @@ id_df = df.sort_values('id', ascending=True)
 
 
 
-
-
+top_df['Top-Price'] = '$' + top_df['Top-Price'].astype(str) 
+# sale_df['Sale-Price'] = '$' + sale_df['Sale-Price'].astype(str)
 
 
 

@@ -55,6 +55,7 @@ def GetProductInfo(tar_list : list, bs4_item : soup, html : str, id : str, id_na
     prices = bs4_item.find_all(html, {id:id_name})
     brand_name = tar_list[i]
     top_p = prices[0].text.replace(',', '')
+    # top_p = prices[0].text.replace('$', '')
     new_p = 'NO SALE'                       #* Default value
 
     #* Handling of prices when no sale is on
@@ -73,7 +74,7 @@ def GetProductInfo(tar_list : list, bs4_item : soup, html : str, id : str, id_na
 
 
 op = Options()
-op.add_argument("--headless")
+# op.add_argument("--headless")
 # Load webdriver
 driver = webdriver.Chrome(options=op)
 

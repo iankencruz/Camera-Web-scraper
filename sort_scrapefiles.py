@@ -26,13 +26,16 @@ id_df = df.sort_values('id', ascending=True)
 top_df['Top-Price'] = '$' + top_df['Top-Price'].astype(str) 
 # sale_df['Sale-Price'] = '$' + sale_df['Sale-Price'].astype(str)
 
+brand_name = df['Top-Price']
+sale_name = df['Sale-Price']
 
-
-
-writer = pd.ExcelWriter("test_file.xlsx", engine = 'xlsxwriter')
-df.to_excel(writer, sheet_name = 'All')
-brand_df.to_excel(writer, sheet_name = 'Brand')
-top_df.to_excel(writer, sheet_name = 'Top-Price')
-sale_df.to_excel(writer, sheet_name = 'Sale-Price')
-id_df.to_excel(writer, sheet_name = 'id')
-writer.save()
+new_df = pd.DataFrame(brand_name)
+new_df['Sale-Price'] = top_df
+print(new_df)
+# writer = pd.ExcelWriter("product_cameras.xlsx", engine = 'xlsxwriter')
+# df.to_excel(writer, sheet_name = 'All')
+# brand_df.to_excel(writer, sheet_name = 'Brand')
+# top_df.to_excel(writer, sheet_name = 'Top-Price')
+# sale_df.to_excel(writer, sheet_name = 'Sale-Price')
+# id_df.to_excel(writer, sheet_name = 'id')
+# writer.save()

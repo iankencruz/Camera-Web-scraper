@@ -132,7 +132,7 @@ for url in range (0,3):
 
 
     #* Filter by brand
-    search_target = ["Fujifilm", "Sony", "Canon"]
+    search_target = ["Fujifilm"]
 
     # Get product name
     for container in items:

@@ -1,31 +1,7 @@
-Product Name, Top Price, Sale Price
-Fujifilm X-T30 II Silver Body  ,$1549.00,
-Fujifilm X-T30 II Black Body  ,$1549.00,
-Fujifilm X-T4 - Silver with XF18-55mm F2.8-4 R LM OIS Lens ,$2899.00,
-Fujifilm X-T4 Body - Black  ,$2399.00,
-Fujifilm X-T4 Body - Silver  ,$2399.00,
-Fujifilm X-S10 Body Only  ,$1469.00,
-Fujifilm X-E4 /XF27mmF2.8 R WR Silver HB Kit ,$1569.00,
-Fujifilm X-T4 - Black with XF18-55mm F2.8-4 R LM OIS Lens ,$2899.00,
-Fujifilm X-S10 + XC15-45mm (Hard Bundle Kit) ,$1649.00,
-Fujifilm X-E4 /XF27mmF2.8 R WR Black HB Kit ,$1569.00,
-Fujifilm X-T200 Silver with XC15-45mmF3.5-5.6 OIS PZ Lens,$1199.00,
-Fujifilm X-S10  + XF16-80mm (Hard Bundle Kit) ,$2199.00,
-Fujifilm X-T3 Body - Black  ,$1999.00,
-Fujifilm X-T4 - Black with XF16-80mm Lens ,$3699.00,
-Fujifilm X-E4 /MHG-XE4/TR-XE4 Black HB Kit ,$1399.00,
-Fujifilm X-T4 - Silver with XF16-80mm Lens ,$3699.00,
-Fujifilm X-E4 Silver Body  ,$1199.00,
-Fujifilm X-E4 / XF 18-55mm Black Kit ,$1639.00,
-Fujifilm X-T30 Body Only - Charcoal Grey ,$1289.00,
-Fujifilm X-T200 Champagne Gold with XC15-45mmF3.5-5.6 OIS PZ Lens,$1176.00,
-Fujifilm X-E4 /MHG-XE4/TR-XE4 Silver HB Kit ,$1399.00,
-Fujifilm X-E4 / XF 18-55mm Silver Kit ,$1639.00,
-Fujifilm X-T3  - Silver w/ 18-55mm XF f/2.8-4 R LM OIS Lens,$2499.00,
-Fujifilm X-T30 Body w/ XF 18-55mm - Black ,$1689.00,
-Fujifilm X-E4 Black Body  ,$1199.00,
-Fujifilm X-E4 Black with XF 27mm Lens plus Metal Hand Grip & Thumb Rest Kit,$1499.00,
-Fujifilm X-E4 Silver with XF 27mm Lens plus Metal Hand Grip & Thumb Rest Kit,$1499.00,
-Fujifilm X-T3 Body - SIlver  ,$1999.00,
-Fujifilm X-T30 Body Only - Black ,$1289.00,
-Fujifilm X-T3  - Black w/ 18-55mm XF f/2.8-4 R LM OIS Lens,$2499.00,
+Product-Name,Brand,Top-Price,Sale-Price,id
+Fujifilm X-T4 - Silver with XF18-55mm F2.8-4 R LM OIS Lens ,Fujifilm X-T4,$2899.00,$2319.20,Body
+Fujifilm X-T4 Body - Black  ,Fujifilm X-T4,$2399.00,$1919.20,Body
+Fujifilm X-T4 Body - Silver  ,Fujifilm X-T4,$2399.00,$1919.20,Body
+Fujifilm X-T4 - Black with XF18-55mm F2.8-4 R LM OIS Lens ,Fujifilm X-T4,$2899.00,$2319.20,Body
+Fujifilm X-T4 - Black with XF16-80mm Lens ,Fujifilm X-T4,$3599.00,$2879.20,Body
+Fujifilm X-T4 - Silver with XF16-80mm Lens ,Fujifilm X-T4,$3599.00,$2879.20,Body
